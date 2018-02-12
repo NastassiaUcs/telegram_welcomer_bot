@@ -60,15 +60,9 @@ def username_from_msg(msg, flag=0):
             return f"{msg['left_chat_member']['first_name']}"
 
 def switch_welcome_message():
-    current_hour = datetime.now().hour
-    if current_hour in config.night_time:
-        return choice(config.daytime_messages['night'])
-    elif current_hour in config.morning_time:
-        return choice(config.daytime_messages['morning'])
-    elif current_hour in config.day_time:
-        return choice(config.daytime_messages['day'])
-    elif current_hour in config.evening_time:
-        return choice(config.daytime_messages['evening'])
+    for curr_day in config.current_daytime:
+        if datetime.now().hour in config.current_daytime[curr_day]:
+            return choice(config.daytime_messages[curr_day])
 
 async def welcome_user(msg_id, chat_id):
     global chat_semaphores, curr_users, prev_users, time_users, prev_bot_messages, chat_messages_count
